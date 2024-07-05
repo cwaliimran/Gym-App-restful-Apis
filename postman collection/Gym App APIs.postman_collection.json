@@ -1,0 +1,133 @@
+{
+	"info": {
+		"_postman_id": "82942af9-a38b-4d16-a347-e2bf2d95e5e6",
+		"name": "Gym App APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3104553"
+	},
+	"item": [
+		{
+			"name": "workouts",
+			"item": [
+				{
+					"name": "All workouts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:4000/api/workouts/",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"workouts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get single workout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:4000/api/workouts/66879223924a03176e429218",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"workouts",
+								"66879223924a03176e429218"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add workout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\" : \"Situps\",\n    \"load\" :0,\n    \"reps\" : 50\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:4000/api/workouts/",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"workouts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:4000/api/workouts/324",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"workouts",
+								"324"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Benchpress\",\n    \"reps\": 4,\n    \"load\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:4000/api/workouts/66879223924a03176e429218",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"workouts",
+								"66879223924a03176e429218"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
