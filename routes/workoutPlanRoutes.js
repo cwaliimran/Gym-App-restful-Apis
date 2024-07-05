@@ -1,4 +1,6 @@
 const express = require("express");
+const auth = require("../middlewares/authMiddleware");
+
 const {
   createPlan,
   getPlans,
@@ -9,14 +11,14 @@ const {
 const router = express.Router();
 
 //get all Plans
-router.get("/", getPlans);
+router.get("/", auth, getPlans);
 //get a single Plan
-router.get("/:id", getPlan);
+router.get("/:id",auth, getPlan);
 //post Plan
-router.post("/", createPlan);
+router.post("/",auth, createPlan);
 //delete Plan
-router.delete("/:id", deletePlan);
+router.delete("/:id",auth, deletePlan);
 //update a Plan
-router.patch("/:id", updatePlan);
+router.patch("/:id",auth, updatePlan);
 
 module.exports = router;
