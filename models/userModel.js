@@ -5,6 +5,8 @@ const jwt = require("jsonwebtoken");
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  otp: String,
+  otpExpires: Date
 });
 
 // Hash password before saving to database
@@ -38,13 +40,22 @@ userSchema.statics.findByCredentials = async (username, password) => {
 };
 
 
-// Exclude password field when returning user object
+// Generate OTP
+userSchema.methods.generateOtp = function () {
+    const user = this;
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    user.otp = otp;
+    user.otpExpires = Date.now() + 3600000; // 1 hour
+    return otp;
+  };
+
+// Exclude sensitive fields when returning user object
 userSchema.methods.toJSON = function () {
     const user = this;
     const userObject = user.toObject();
-  
     delete userObject.password;
-  
+    delete userObject.otp;
+    delete userObject.otpExpires;
     return userObject;
   };
   
