@@ -15,14 +15,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:4000/api/workouts/",
+							"raw": "{{url}}workouts/",
 							"host": [
-								"localhost"
+								"{{url}}workouts"
 							],
-							"port": "4000",
 							"path": [
-								"api",
-								"workouts",
 								""
 							]
 						}
@@ -35,14 +32,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:4000/api/workouts/66879223924a03176e429218",
+							"raw": "{{url}}workouts/66879223924a03176e429218",
 							"host": [
-								"localhost"
+								"{{url}}workouts"
 							],
-							"port": "4000",
 							"path": [
-								"api",
-								"workouts",
 								"66879223924a03176e429218"
 							]
 						}
@@ -64,14 +58,11 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:4000/api/workouts/",
+							"raw": "{{url}}workouts/",
 							"host": [
-								"localhost"
+								"{{url}}workouts"
 							],
-							"port": "4000",
 							"path": [
-								"api",
-								"workouts",
 								""
 							]
 						}
@@ -84,14 +75,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:4000/api/workouts/324",
+							"raw": "{{url}}workouts/324",
 							"host": [
-								"localhost"
+								"{{url}}workouts"
 							],
-							"port": "4000",
 							"path": [
-								"api",
-								"workouts",
 								"324"
 							]
 						}
@@ -113,14 +101,11 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:4000/api/workouts/66879223924a03176e429218",
+							"raw": "{{url}}workouts/66879223924a03176e429218",
 							"host": [
-								"localhost"
+								"{{url}}workouts"
 							],
-							"port": "4000",
 							"path": [
-								"api",
-								"workouts",
 								"66879223924a03176e429218"
 							]
 						}
@@ -128,6 +113,641 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "workouts Plans",
+			"item": [
+				{
+					"name": "All",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}workout-plans/",
+							"host": [
+								"{{url}}workout-plans"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get single",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}workout-plans/6687d24888667d97f5123a67",
+							"host": [
+								"{{url}}workout-plans"
+							],
+							"path": [
+								"6687d24888667d97f5123a67"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\" : \"Basic weight loss\",\n    \"intensity\" :\"Easy\",\n    \"benefits\" : \"Just enjoy the time\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}workout-plans/",
+							"host": [
+								"{{url}}workout-plans"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}workout-plans/324",
+							"host": [
+								"{{url}}workout-plans"
+							],
+							"path": [
+								"324"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\" : \"Basic weight loss\",\n    \"intensity\" :\"Easy\",\n    \"benefits\" : \"Just enjoy the time\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}workout-plans/66879223924a03176e429218",
+							"host": [
+								"{{url}}workout-plans"
+							],
+							"path": [
+								"66879223924a03176e429218"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"dev4\",\n    \"password\" : \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}auth/register",
+							"host": [
+								"{{url}}auth"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.test(\"Token\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    pm.environment.set(\"token\", jsonData.token);",
+									"    ",
+									"});",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"dev1\",\n    \"password\" : \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}auth/login",
+							"host": [
+								"{{url}}auth"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\" : \"dev1\",\n    \"password\" : \"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "h/login",
+									"host": [
+										"h"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "229"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"e5-smZ/olKEd24XFu+FgcH4DyCbd/s\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 05 Jul 2024 11:39:08 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": {\n        \"_id\": \"6687d91f662c5528b57528a2\",\n        \"username\": \"dev1\",\n        \"__v\": 0\n    },\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njg3ZDkxZjY2MmM1NTI4YjU3NTI4YTIiLCJpYXQiOjE3MjAxNzk1NDh9.R4HNHrNCzgj0b4dgboAw0j_co6yu-i38zvJKFecC2Zw\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Forgot password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"dev1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}auth/forgot-password",
+							"host": [
+								"{{url}}auth"
+							],
+							"path": [
+								"forgot-password"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\" : \"dev1\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "assword",
+									"host": [
+										"assword"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "64"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"40-JMzqsgRqrEDlKj7MuYYE9pxkBrg\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Jul 2024 04:27:11 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"OTP generated successfully\",\n    \"data\": {\n        \"otp\": \"315643\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Verify OTP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"dev1\",\n    \"otp\" : \"302342\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}auth/verify-otp",
+							"host": [
+								"{{url}}auth"
+							],
+							"path": [
+								"verify-otp"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\" : \"dev1\",\n    \"otp\" : \"315643\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "ify-otp",
+									"host": [
+										"ify-otp"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "39"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"27-gmemsCpNdXZC5ApWNn/ZciPyh/8\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Jul 2024 04:28:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"OTP verified successfully\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Reset password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"dev1\",\n    \"newPassword\" : \"123456\"\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}auth/reset-password",
+							"host": [
+								"{{url}}auth"
+							],
+							"path": [
+								"reset-password"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\" : \"dev1\",\n    \"newPassword\" : \"1234567\"\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "assword",
+									"host": [
+										"assword"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"25-0e4m86kU0wNIY9/uj1wa+mew8GQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Jul 2024 04:31:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Password has been reset\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}user/profile",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}user/allUsers",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"allUsers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njg3ZDkxZjY2MmM1NTI4YjU3NTI4YTIiLCJpYXQiOjE3MjAxNzk1NDh9.R4HNHrNCzgj0b4dgboAw0j_co6yu-i38zvJKFecC2Zw\""
+		},
+		{
+			"key": "url",
+			"value": "",
+			"type": "string"
 		}
 	]
 }
