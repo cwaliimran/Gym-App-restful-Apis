@@ -32,10 +32,11 @@ app.use(morgan("dev"));
 //middleware
 app.use(express.json());
 
-app.use((req, res, next) => {
-  console.log(req.path, req.method);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log(req.path, req.method);
+//   next();
+// });
+
 
 //Routes
 app.use("/api/workouts", workoutRoutes);
@@ -46,12 +47,12 @@ app.use("/api/upload", uploadRoutes);
 app.use("/api/uploads", uploadRoutes);
 app.use("/api/upload/details", uploadRoutes);
 
-
-//error handling
+// Global error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ error: "Internal server error" });
+  sendResponse(res, err.statusCode || 500, err.message || 'Internal Server Error');
 });
+
 
 // Middleware to handle 404 errors
 app.use((req, res, next) => {

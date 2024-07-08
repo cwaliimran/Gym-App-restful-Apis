@@ -1,6 +1,6 @@
 const User = require("../models/userModel");
 const mongoose = require("mongoose");
-const sendResponse = require("../helperUtils/sendResponse");
+const sendResponse = require("../helperUtils/responseUtil");
 //register
 
 const register = async (req, res) => {

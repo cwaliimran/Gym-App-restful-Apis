@@ -1,11 +1,27 @@
 const Plan = require("../models/planModel");
 const mongoose = require("mongoose");
-
+const {
+  sendResponse,
+  parsePaginationParams,
+  generateMeta,
+} = require("../helperUtils/responseUtil");
 //get all plans
 
 const getPlans = async (req, res) => {
-  const plans = await Plan.find({}).sort({ createdAt: -1 });
-  return res.status(200).json(plans);
+  const { page, limit } = parsePaginationParams(req);
+
+  try {
+    const data = await Plan.find({})
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    const total = await Plan.countDocuments({});
+    const meta = generateMeta(page, limit, total);
+    sendResponse(res, 200, "Plans fetched successfully", data, meta);
+  } catch (error) {
+    sendResponse(res, 500, error.message);
+  }
 };
 
 //get a single plan
@@ -60,7 +76,8 @@ const updatePlan = async (req, res) => {
     { _id: id },
     {
       title,
-      intensity, benefits
+      intensity,
+      benefits,
     },
     { new: true }
   );

@@ -1,11 +1,27 @@
 const Workout = require("../models/workoutModel");
 const mongoose = require("mongoose");
+const {
+  sendResponse,
+  parsePaginationParams,
+  generateMeta,
+} = require("../helperUtils/responseUtil");
 
 //get all workouts
-
 const getWorkouts = async (req, res) => {
-  const workouts = await Workout.find({}).sort({ createdAt: -1 });
-  return res.status(200).json(workouts);
+  const { page, limit } = parsePaginationParams(req);
+
+  try {
+    const data = await Workout.find({})
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    const total = await Workout.countDocuments({});
+    const meta = generateMeta(page, limit, total);
+    sendResponse(res, 200, "Workouts fetched successfully", data, meta);
+  } catch (error) {
+    sendResponse(res, 500, error.message);
+  }
 };
 
 //get a single workout
