@@ -8,6 +8,7 @@ const workoutPlanRoutes = require("./routes/workoutPlanRoutes");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
+const messageRoutes = require("./routes/messageRoutes");
 const mongoose = require("mongoose");
 
 const logsDir = path.join(__dirname, "logs");
@@ -46,6 +47,8 @@ app.use("/api/user", userRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/uploads", uploadRoutes);
 app.use("/api/upload/details", uploadRoutes);
+app.use("/api/message", messageRoutes);
+
 
 // Global error handler
 app.use((err, req, res, next) => {

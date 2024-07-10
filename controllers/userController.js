@@ -1,6 +1,8 @@
 const User = require("../models/userModel");
 const mongoose = require("mongoose");
-const sendResponse = require("../helperUtils/responseUtil");
+const {
+  sendResponse
+} = require("../helperUtils/responseUtil");
 
 //get all workouts
 

@@ -15,12 +15,19 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}workouts/",
+							"raw": "{{url}}workouts?page=1&limit=2",
 							"host": [
 								"{{url}}workouts"
 							],
-							"path": [
-								""
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
 							]
 						}
 					},
@@ -115,6 +122,160 @@
 			]
 		},
 		{
+			"name": "messages",
+			"item": [
+				{
+					"name": "One to 1 chat",
+					"item": [
+						{
+							"name": "get chat",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}message/chat/6687e4d061bd17e5727cc2ed?page=1&limit=2",
+									"host": [
+										"{{url}}message"
+									],
+									"path": [
+										"chat",
+										"6687e4d061bd17e5727cc2ed"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "2"
+										}
+									]
+								},
+								"description": "Add otherUser id in path param"
+							},
+							"response": []
+						},
+						{
+							"name": "Add",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"senderId\": \"6687d91f662c5528b57528a2\", \n  \"receiverId\": \"6687e4d061bd17e5727cc2ed\", \n  \"messageType\": \"text\", \n  \"messageContent\": \"are you busy?\", \n  \"mediaUrl\": \"\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}message/",
+									"host": [
+										"{{url}}message"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Group Chat",
+					"item": []
+				},
+				{
+					"name": "all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}message?page=1&limit=2",
+							"host": [
+								"{{url}}message"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get message detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}message/668e28d54c44db488fba046a",
+							"host": [
+								"{{url}}message"
+							],
+							"path": [
+								"668e28d54c44db488fba046a"
+							]
+						},
+						"description": "Get single message detail"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}message/668e3b4fa8eb2a43308c6517",
+							"host": [
+								"{{url}}message"
+							],
+							"path": [
+								"668e3b4fa8eb2a43308c6517"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": {\n    \"delivered\": true,\n    \"read\": true,\n    \"readAt\": \"2024-07-10T06:24:12.750Z\"\n  }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}message/668e28d54c44db488fba046a",
+							"host": [
+								"{{url}}message"
+							],
+							"path": [
+								"668e28d54c44db488fba046a"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "workouts Plans",
 			"item": [
 				{
@@ -133,12 +294,22 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}workout-plans/",
+							"raw": "{{url}}workout-plans/?page=1&limit=2",
 							"host": [
 								"{{url}}workout-plans"
 							],
 							"path": [
 								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
 							]
 						}
 					},
@@ -699,6 +870,111 @@
 							],
 							"path": [
 								"allUsers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Common",
+			"item": [
+				{
+					"name": "Upload file",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/s/Desktop/Development/_FreeLancing/samples_mobile/Circle Images/ali.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}upload",
+							"host": [
+								"{{url}}upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get file",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{url}}upload/file-1720267325201.png",
+							"host": [
+								"{{url}}upload"
+							],
+							"path": [
+								"file-1720267325201.png"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get file details",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/s/Desktop/Development/_FreeLancing/samples_mobile/Circle Images/ali.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}upload/details/file-1720267325201.png",
+							"host": [
+								"{{url}}upload"
+							],
+							"path": [
+								"details",
+								"file-1720267325201.png"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All files",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{url}}uploads",
+							"host": [
+								"{{url}}uploads"
 							]
 						}
 					},
