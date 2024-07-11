@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 /**
  * Sends a JSON response with optional status code, message, data, and meta information.
  * @param {object} res - Express response object.
@@ -54,8 +55,7 @@ const parsePaginationParams = (req) => {
 };
 
 const applyPaginationFilter = (query, { page, limit, sort }) => {
-  return query
-  
+  return query;
 };
 // Helper function to generate meta information
 const generateMeta = (page, limit, total) => {
@@ -66,9 +66,22 @@ const generateMeta = (page, limit, total) => {
   };
 };
 
+// Helper function to validate an array of MongoDB ObjectIds
+const validateObjectIds = (res, ids, errorMessage = "Invalid request data") => {
+  for (const id of ids) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      sendResponse(res, 400, `${errorMessage}`);
+      return false;
+    }
+  }
+  return true;
+};
+
+
 module.exports = {
   sendResponse,
   parsePaginationParams,
   applyPaginationFilter,
   generateMeta,
+  validateObjectIds,
 };

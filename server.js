@@ -9,6 +9,8 @@ const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
 const messageRoutes = require("./routes/messageRoutes");
+const groupRoutes = require("./routes/groupRoutes");
+const groupMessageRoutes = require("./routes/groupMessageRoutes");
 const mongoose = require("mongoose");
 
 const logsDir = path.join(__dirname, "logs");
@@ -48,6 +50,8 @@ app.use("/api/upload", uploadRoutes);
 app.use("/api/uploads", uploadRoutes);
 app.use("/api/upload/details", uploadRoutes);
 app.use("/api/message", messageRoutes);
+app.use("/api/group", groupRoutes);
+app.use("/api/group/message", groupMessageRoutes);
 
 
 // Global error handler
