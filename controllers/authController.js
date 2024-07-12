@@ -1,6 +1,6 @@
 const User = require("../models/userModel");
 const mongoose = require("mongoose");
-const sendResponse = require("../helperUtils/responseUtil");
+const {sendResponse} = require("../helperUtils/responseUtil");
 //register
 
 const register = async (req, res) => {
@@ -8,7 +8,11 @@ const register = async (req, res) => {
   try {
     await user.save();
     const token = user.generateAuthToken();
-    sendResponse(res, 201, "Signup success", user);
+    const response = {
+      user: user,
+      token,
+    }
+    sendResponse(res, 201, "Signup success", response);
   } catch (error) {
     if (
       error.code === 11000 &&
@@ -35,10 +39,9 @@ const login = async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findByCredentials(username, password);
     const token = user.generateAuthToken();
-
-    res.json({ user, token });
+    sendResponse(res, 200, "Login success", { user, token });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    sendResponse(res, 400, error.message);
   }
 };
 

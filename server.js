@@ -1,8 +1,11 @@
-require("dotenv").config();
+require('dotenv').config({ path: `.env.${process.env.NODE_ENV || 'dev'}` });
+
 const morgan = require("morgan");
 const fs = require("fs");
 const path = require("path");
 const express = require("express");
+const connectToDB = require("./helperUtils/server-setup");
+
 const workoutRoutes = require("./routes/workouts");
 const workoutPlanRoutes = require("./routes/workoutPlanRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -11,15 +14,16 @@ const uploadRoutes = require("./routes/uploadRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const groupRoutes = require("./routes/groupRoutes");
 const groupMessageRoutes = require("./routes/groupMessageRoutes");
-const mongoose = require("mongoose");
+const {sendResponse} = require("./helperUtils/responseUtil");
 
 const logsDir = path.join(__dirname, "logs");
 if (!fs.existsSync(logsDir)) {
   fs.mkdirSync(logsDir);
 }
 
-//express app
+// Express app
 const app = express();
+
 // Create a write stream for logging
 const accessLogStream = fs.createWriteStream(
   path.join(logsDir, `access-${new Date().toISOString().slice(0, 10)}.log`),
@@ -32,16 +36,10 @@ app.use(morgan("combined", { stream: accessLogStream }));
 // Morgan middleware for request logging to console
 app.use(morgan("dev"));
 
-//middleware
+// Middleware to parse JSON bodies
 app.use(express.json());
 
-// app.use((req, res, next) => {
-//   console.log(req.path, req.method);
-//   next();
-// });
-
-
-//Routes
+// Routes
 app.use("/api/workouts", workoutRoutes);
 app.use("/api/workout-plans", workoutPlanRoutes);
 app.use("/api/auth", authRoutes);
@@ -53,28 +51,20 @@ app.use("/api/message", messageRoutes);
 app.use("/api/group", groupRoutes);
 app.use("/api/group/message", groupMessageRoutes);
 
-
 // Global error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   sendResponse(res, err.statusCode || 500, err.message || 'Internal Server Error');
 });
 
-
 // Middleware to handle 404 errors
 app.use((req, res, next) => {
-  res.status(404).json({ error: "Route Not Found" });
+   sendResponse(res, 404, "Route Not Found");
 });
 
-//connect to db
-mongoose
-  .connect(process.env.BASE_URL)
-  .then(() => {
-    //listen for requests
-    app.listen(process.env.PORT, () => {
-      console.log("connected to db & listening on port", process.env.PORT);
-    });
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+// Connect to MongoDB and start server
+connectToDB(app);
+
+// Export your app for testing or other modules
+module.exports = app;
+

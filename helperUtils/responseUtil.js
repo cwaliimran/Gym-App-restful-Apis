@@ -7,19 +7,66 @@ const mongoose = require("mongoose");
  * @param {object|array|null} [data=null] - Data to send in the response body (default: null).
  * @param {object} [meta] - Additional metadata to include in the response (optional).
  */
-const sendResponse = (
-  res,
-  statusCode = 200,
-  message = "",
-  data = null,
-  meta
-) => {
+const sendResponse = (res, statusCode, messageBase = "", data = null, meta) => {
   // Prepare the response object
   const response = {};
 
-  // Include message in the response if provided
-  if (message !== "") {
+  // Determine the action based on the request method
+  let action;
+  switch (res.req.method) {
+    case "POST":
+      action = "create";
+      break;
+    case "PUT":
+    case "PATCH":
+      action = "update";
+      break;
+    case "DELETE":
+      action = "delete";
+      break;
+    default:
+      action = "fetch";
+  }
+
+  // If statusCode is not provided, get it from res object
+  if (!statusCode) {
+    statusCode = res.statusCode || 200; // Default to 200 if res.statusCode is not set
+  }
+
+  // Construct dynamic message based on data and action
+  if (messageBase) {
+  let message = "";
+
+    switch (action) {
+      case "fetch":
+        if (data && data.length > 0) {
+          if (meta.currentPage && meta.currentPage > 1) {
+            message = `${messageBase}, more records loaded`;
+          } else {
+            message = `${messageBase} fetched successfully`;
+          }
+        } else {
+          message = `No ${messageBase.toLowerCase()} found`;
+        }
+        break;
+      case "create":
+        message = `${messageBase} created successfully`;
+        break;
+      case "update":
+        message = `${messageBase} updated successfully`;
+        break;
+      case "delete":
+        message = `${messageBase} deleted successfully`;
+        break;
+      default:
+        message = `${messageBase} processed successfully`;
+    }
+
+  // Include message in the response
+  if (message) {
     response.message = message;
+  }
+
   }
 
   // Include data in the response if provided
@@ -35,6 +82,9 @@ const sendResponse = (
   // Send the response with the appropriate status code
   res.status(statusCode).json(response);
 };
+
+
+
 
 // Helper function to parse pagination parameters
 const parsePaginationParams = (req) => {
@@ -54,9 +104,6 @@ const parsePaginationParams = (req) => {
   return { page, limit };
 };
 
-const applyPaginationFilter = (query, { page, limit, sort }) => {
-  return query;
-};
 // Helper function to generate meta information
 const generateMeta = (page, limit, total) => {
   return {
@@ -81,7 +128,6 @@ const validateObjectIds = (res, ids, errorMessage = "Invalid request data") => {
 module.exports = {
   sendResponse,
   parsePaginationParams,
-  applyPaginationFilter,
   generateMeta,
   validateObjectIds,
 };

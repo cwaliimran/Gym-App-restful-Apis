@@ -1,9 +1,14 @@
 const GroupMessage = require("../models/groupMessageModel");
 const mongoose = require("mongoose");
-const User = require('../models/userModel');
+const User = require("../models/userModel");
+const { populateFields } = require("../helperUtils/queryUtil");
 
-const { sendResponse, parsePaginationParams, generateMeta, validateObjectIds } = require('../helperUtils/responseUtil');
-
+const {
+  sendResponse,
+  parsePaginationParams,
+  generateMeta,
+  validateObjectIds,
+} = require("../helperUtils/responseUtil");
 
 // Create a new group message
 const createGroupMessage = async (req, res) => {
@@ -26,7 +31,7 @@ const createGroupMessage = async (req, res) => {
     return sendResponse(
       res,
       200,
-      "Group message created successfully",
+      "Group message",
       groupMessage
     );
   } catch (error) {
@@ -34,58 +39,54 @@ const createGroupMessage = async (req, res) => {
   }
 };
 
+
+//delete a group message
+const deleteGroupMessage = async (req, res) => {
+    const { groupId } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(groupId)) {
+      return res.status(404).json({ error: "No such message" });
+    }
+    const message = await GroupMessage.findByIdAndDelete(groupId);
+    if (!message) {
+      return res.status(404).json({ error: "No such message found" });
+    }
+    return res.status(200).json(message);
+  };
+
 // Get group messages by groupId
 const getGroupMessages = async (req, res) => {
-    const { groupId } = req.params;
-    const { _id: senderId } = req.user;
-    const { page, limit } = parsePaginationParams(req);
-  
-    if (!validateObjectIds(res, [groupId, senderId])) return;
-  
-    try {
-      const query = { groupId };
-  
-      // Execute operations concurrently using Promise.all
-      const [messages, totalMessages] = await Promise.all([
-        GroupMessage.find(query)
-          .sort({ createdAt: -1 })
-          .skip((page - 1) * limit)
-          .limit(limit)
-          .populate('senderId', 'username') // Populate sender details
-          .lean(), // Convert Mongoose documents to plain JavaScript objects
-        GroupMessage.countDocuments(query)
-      ]);
-  
-      const totalPages = Math.ceil(totalMessages / limit);
-      const meta = generateMeta(page, limit, totalMessages, totalPages);
-  
-      // Prepare response including messages and user details
-      const responseData = messages.map(message => ({
-        message: {
-          ...message,
-          senderId: message.senderId._id, // Ensure senderId is just the string representation of the ID
-        },
-        sender: {
-          _id: message.senderId._id,
-          username: message.senderId.username,
-          // Include other relevant user details as needed
-        },
-      }));
-  
-      return sendResponse(
-        res,
-        200,
-        "Group messages fetched successfully",
-        responseData,
-        meta
-      );
-    } catch (error) {
-      return sendResponse(res, 500, error.message);
-    }
-  };
-  
+  const { groupId } = req.params;
+  const { _id: senderId } = req.user;
+  const { page, limit } = parsePaginationParams(req);
+
+  if (!validateObjectIds(res, [groupId, senderId])) return;
+  console.time("getGroupMessages");  // Start timing
+
+  try {
+    const query = { groupId };
+    const fieldsToPopulate = [{ path: "senderId", select: "username", alias: "sender" }];
+    const [documents, totalDocuments] = await Promise.all([
+      populateFields(GroupMessage, query, fieldsToPopulate, { page, limit }),
+      GroupMessage.countDocuments(query),
+    ]);
+
+    const meta = generateMeta(page, limit, totalDocuments);
+    console.timeEnd("getGroupMessages");  // End timing
+
+    return sendResponse(
+      res,
+      null,
+      "Group messges",
+      documents,
+      meta
+    );
+  } catch (error) {
+    return sendResponse(res, 500, error.message);
+  }
+};
 
 module.exports = {
   createGroupMessage,
   getGroupMessages,
+  deleteGroupMessage,
 };

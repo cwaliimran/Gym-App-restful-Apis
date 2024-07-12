@@ -6,7 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "NODE_ENV=dev nodemon server.js",
+    "qa": "NODE_ENV=qa node server.js",
+    "prod": "NODE_ENV=prod node server.js"
+
+    
   },
   "keywords": [],
   "author": "",
@@ -20,6 +24,7 @@
     "mime-types": "^2.1.35",
     "mongoose": "^8.4.4",
     "morgan": "^1.10.0",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "redis": "^4.6.15"
   }
 }
