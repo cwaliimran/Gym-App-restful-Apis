@@ -9,8 +9,6 @@
     "dev": "NODE_ENV=dev nodemon server.js",
     "qa": "NODE_ENV=qa node server.js",
     "prod": "NODE_ENV=prod node server.js"
-
-    
   },
   "keywords": [],
   "author": "",
@@ -20,6 +18,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
     "mime": "^4.0.4",
     "mime-types": "^2.1.35",
     "mongoose": "^8.4.4",

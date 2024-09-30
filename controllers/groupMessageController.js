@@ -60,7 +60,7 @@ const getGroupMessages = async (req, res) => {
   const { page, limit } = parsePaginationParams(req);
 
   if (!validateObjectIds(res, [groupId, senderId])) return;
-  console.time("getGroupMessages");  // Start timing
+//   console.time("getGroupMessages");  // Start timing
 
   try {
     const query = { groupId };
@@ -71,7 +71,7 @@ const getGroupMessages = async (req, res) => {
     ]);
 
     const meta = generateMeta(page, limit, totalDocuments);
-    console.timeEnd("getGroupMessages");  // End timing
+    // console.timeEnd("getGroupMessages");  // End timing
 
     return sendResponse(
       res,
